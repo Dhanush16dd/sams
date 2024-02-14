@@ -1,42 +1,4 @@
-const navigateToFormStep = (stepNumber) => {
-    
-    document.querySelectorAll(".form-step").forEach((formStepElement) => {
-        formStepElement.classList.add("d-none");
-    });
-    
-    document.querySelectorAll(".form-stepper-list").forEach((formStepHeader) => {
-        formStepHeader.classList.add("form-stepper-unfinished");
-        formStepHeader.classList.remove("form-stepper-active", "form-stepper-completed");
-    });
-    
-    document.querySelector("#step-" + stepNumber).classList.remove("d-none");
-    
-    const formStepCircle = document.querySelector('li[step="' + stepNumber + '"]');
-    
-    formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-completed");
-    formStepCircle.classList.add("form-stepper-active");
-  
-    for (let index = 0; index < stepNumber; index++) {
-        
-        const formStepCircle = document.querySelector('li[step="' + index + '"]');
-       
-        if (formStepCircle) {
-           
-            formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-active");
-            formStepCircle.classList.add("form-stepper-completed");
-        }
-    }
-};
 
-document.querySelectorAll(".btn-navigate-form-step").forEach((formNavigationBtn) => {
-   
-    formNavigationBtn.addEventListener("click", () => {
-       
-        const stepNumber = parseInt(formNavigationBtn.getAttribute("step_number"));
-       
-        navigateToFormStep(stepNumber);
-    });
-});
 
 // form validations
 
@@ -139,3 +101,74 @@ document.querySelectorAll(".btn-navigate-form-step").forEach((formNavigationBtn)
       errorMessageDiv.className = 'error-message';
       inputField.parentNode.appendChild(errorMessageDiv);
     }
+
+
+
+    // muyltiple select check box 
+
+    $(function () {
+      setCheckboxSelectLabels();
+  
+      $(".toggle-next").click(function () {
+          $(this).next(".checkboxes").slideToggle(400);
+      });
+  
+      $(".ckkBox").change(function () {
+          toggleCheckedAll(this);
+          setCheckboxSelectLabels();
+      });
+  });
+  
+  function setCheckboxSelectLabels(elem) {
+      var wrappers = $(".wrapper");
+      $.each(wrappers, function (key, wrapper) {
+          var checkboxes = $(wrapper).find(".ckkBox:checked");
+          var label = $(wrapper).find(".checkboxes").attr("id");
+          var prevText = "";
+          var numberOfChecked = checkboxes.length;
+  
+          if (numberOfChecked >= 3) {
+              // Disable further checks
+              $(wrapper).find(".ckkBox:not(:checked)").prop("disabled", true);
+              // Show warning message
+              $(wrapper).find(".warning-message").text("You can only select up to 3 items.").show();
+          } else {
+              // Enable all checkboxes
+              $(wrapper).find(".ckkBox").prop("disabled", false);
+              // Hide warning message
+              $(wrapper).find(".warning-message").hide();
+          }
+  
+          $.each(checkboxes, function (i, checkbox) {
+              var button = $(wrapper).find("button");
+              var text = $(checkbox).next().html();
+              var btnText = prevText + text;
+              if (numberOfChecked >= 3) {
+                  btnText = numberOfChecked + " " + label + " selected";
+              }
+              $(button).text(btnText);
+              prevText = btnText + ", ";
+          });
+      });
+  }
+  
+  function toggleCheckedAll(checkbox) {
+      var apply = $(checkbox).closest(".wrapper").find(".apply-selection");
+      apply.fadeIn("slow");
+  
+      var val = $(checkbox).closest(".checkboxes").find(".val");
+      var all = $(checkbox).closest(".checkboxes").find(".all");
+      var ckkBox = $(checkbox).closest(".checkboxes").find(".ckkBox");
+  
+      if (!$(ckkBox).is(":checked")) {
+          $(all).prop("checked", true);
+          return;
+      }
+  
+      if ($(checkbox).hasClass("all")) {
+          $(val).prop("checked", false);
+      } else {
+          $(all).prop("checked", false);
+      }
+  }
+  

@@ -2842,3 +2842,53 @@ ul.form-stepper li a .form-stepper-circle {
     }
   }
 }
+
+
+.custom-dropdown .select-box {
+  position: relative;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.custom-dropdown .select-box .placeholder {
+  display: block;
+  padding: 10px;
+}
+
+.custom-dropdown .select-box .options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  display: none;
+  z-index: 100;
+}
+
+.custom-dropdown .select-box .options .option {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.custom-dropdown .select-box .options .option input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.custom-dropdown .select-box .options .option label {
+  margin: 0;
+}
+
+.custom-dropdown.open .select-box .options {
+  display: block;
+}
+
+
+/* thank you page */
+

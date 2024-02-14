@@ -51,7 +51,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     VALUES ('$name', '$phoneNum', '$email', '$insta', '$courses', '$state', '$city', '$fatherName', '$fatherPhone', '$motherName', '$motherPhone', '$highestQualification')";
 
             if ($conn->query($sql) === TRUE) {
-                echo "New record created successfully";
+                echo '
+                <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Source+Sans+Pro" rel="stylesheet">
+    <title>Success page</title>
+    <link href="./styles/thankyou.css" rel="stylesheet" />
+</head>
+<body>
+<div class=content>
+  <div class="wrapper-1">
+    <div class="wrapper-2">
+      <h1>Thank you !</h1>
+      <p>Thanks for Applaying in  SAMS Marine College  </p>
+      <p>you should receive a confirmation email soon  </p>
+    </div>
+    <div class="footer-like">
+      <p>
+       <a href="/">Click here to send again</a>
+      </p>
+    </div>
+</div>
+</div>
+</body>
+</html>
+                ';
             } else {
                 throw new Exception("Error: " . $sql . "<br>" . $conn->error);
             }
@@ -72,3 +99,9 @@ if (!empty($errors)) {
     }
 }
 ?>
+
+
+
+
+
+
