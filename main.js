@@ -1,74 +1,141 @@
-// form stepper
-
-/**
- * Define a function to navigate betweens form steps.
- * It accepts one parameter. That is - step number.
- */
 const navigateToFormStep = (stepNumber) => {
-    /**
-     * Hide all form steps.
-     */
+    
     document.querySelectorAll(".form-step").forEach((formStepElement) => {
         formStepElement.classList.add("d-none");
     });
-    /**
-     * Mark all form steps as unfinished.
-     */
+    
     document.querySelectorAll(".form-stepper-list").forEach((formStepHeader) => {
         formStepHeader.classList.add("form-stepper-unfinished");
         formStepHeader.classList.remove("form-stepper-active", "form-stepper-completed");
     });
-    /**
-     * Show the current form step (as passed to the function).
-     */
+    
     document.querySelector("#step-" + stepNumber).classList.remove("d-none");
-    /**
-     * Select the form step circle (progress bar).
-     */
+    
     const formStepCircle = document.querySelector('li[step="' + stepNumber + '"]');
-    /**
-     * Mark the current form step as active.
-     */
+    
     formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-completed");
     formStepCircle.classList.add("form-stepper-active");
-    /**
-     * Loop through each form step circles.
-     * This loop will continue up to the current step number.
-     * Example: If the current step is 3,
-     * then the loop will perform operations for step 1 and 2.
-     */
+  
     for (let index = 0; index < stepNumber; index++) {
-        /**
-         * Select the form step circle (progress bar).
-         */
+        
         const formStepCircle = document.querySelector('li[step="' + index + '"]');
-        /**
-         * Check if the element exist. If yes, then proceed.
-         */
+       
         if (formStepCircle) {
-            /**
-             * Mark the form step as completed.
-             */
+           
             formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-active");
             formStepCircle.classList.add("form-stepper-completed");
         }
     }
 };
-/**
- * Select all form navigation buttons, and loop through them.
- */
+
 document.querySelectorAll(".btn-navigate-form-step").forEach((formNavigationBtn) => {
-    /**
-     * Add a click event listener to the button.
-     */
+   
     formNavigationBtn.addEventListener("click", () => {
-        /**
-         * Get the value of the step.
-         */
+       
         const stepNumber = parseInt(formNavigationBtn.getAttribute("step_number"));
-        /**
-         * Call the function to navigate to the target form step.
-         */
+       
         navigateToFormStep(stepNumber);
     });
 });
+
+// form validations
+
+    function validateForm() {
+      // Reset error messages
+      document.querySelectorAll('.error-message').forEach(function(element) {
+        element.textContent = '';
+      });
+
+      var isValid = true;
+
+      // Get input values
+      var name = document.forms["admissionForm"]["name"].value;
+      var phoneNum = document.forms["admissionForm"]["phone_num"].value;
+      var email = document.forms["admissionForm"]["email"].value;
+      var insta = document.forms["admissionForm"]["insta"].value;
+      var courses = document.forms["admissionForm"]["courses"].value;
+      var state = document.forms["admissionForm"]["state"].value;
+      var city = document.forms["admissionForm"]["city"].value;
+      var fatherName = document.forms["admissionForm"]["father_name"].value;
+      var fatherPhone = document.forms["admissionForm"]["father_phone_num"].value;
+      var motherName = document.forms["admissionForm"]["mother_name"].value;
+      var motherPhone = document.forms["admissionForm"]["mother_phone_num"].value;
+      var highestQualification = document.forms["admissionForm"]["highest_qualification"].value;
+
+      // Check if required fields are empty
+      if (name == "") {
+        addErrorMessage('name', 'Name is required');
+        isValid = false;
+      }
+
+      if (phoneNum == "") {
+        addErrorMessage('phone_num', 'Phone Number is required');
+        isValid = false;
+      }
+
+      if (email == "") {
+        addErrorMessage('email', 'Email is required');
+        isValid = false;
+      } else {
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+          addErrorMessage('email', 'Invalid email format');
+          isValid = false;
+        }
+      }
+
+      if (insta == "") {
+        addErrorMessage('insta', 'Instagram Link is required');
+        isValid = false;
+      }
+
+      if (courses == "") {
+        addErrorMessage('courses', 'Course Details is required');
+        isValid = false;
+      }
+
+      if (state == "") {
+        addErrorMessage('state', 'State is required');
+        isValid = false;
+      }
+
+      if (city == "") {
+        addErrorMessage('city', 'City / Town / Village is required');
+        isValid = false;
+      }
+
+      if (fatherName == "") {
+        addErrorMessage('father_name', "Father's Name is required");
+        isValid = false;
+      }
+
+      if (fatherPhone == "") {
+        addErrorMessage('father_phone_num', "Father's Phone Number is required");
+        isValid = false;
+      }
+
+      if (motherName == "") {
+        addErrorMessage('mother_name', "Mother's Name is required");
+        isValid = false;
+      }
+
+      if (motherPhone == "") {
+        addErrorMessage('mother_phone_num', "Mother's Phone Number is required");
+        isValid = false;
+      }
+
+      if (highestQualification == "") {
+        addErrorMessage('highest_qualification', "Highest Qualification is required");
+        isValid = false;
+      }
+
+      return isValid;
+    }
+
+    function addErrorMessage(fieldName, message) {
+      var inputField = document.getElementsByName(fieldName)[0];
+      var errorMessageDiv = document.createElement('div');
+      errorMessageDiv.textContent = message;
+      errorMessageDiv.className = 'error-message';
+      inputField.parentNode.appendChild(errorMessageDiv);
+    }
